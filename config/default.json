@@ -1,3 +1,4 @@
 {
-    "mongoURI":"mongodb://ferreira:Kfp_2008@localhost:27017/devSocialMediadb"
+    "mongoURI":"mongodb://ferreira:Kfp_2008@localhost:27017/devSocialMediadb",
+    "jwtSecret":"Kfp_2008"
 }
