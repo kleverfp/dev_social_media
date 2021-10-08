@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const cofig = require('config');
+const config = require('config');
 
 
 module.exports = (req,res,next)=>{
