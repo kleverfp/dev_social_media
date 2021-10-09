@@ -3,6 +3,7 @@ const router = express.Router();
 const Profile = require('../../models/Profile');
 const auth = require('../../middleware/auth');
 const {check,validationResult} = require('express-validator');
+const { json } = require('express');
 
 
 
@@ -78,6 +79,35 @@ router.post('/',auth,[
        
    }
 
+});
+
+router.get('/all',async(req,res)=>{
+    try {
+        const profiles = await Profile.find().populate('user',['name','avatar']);
+        res.json(profiles);
+
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json({msg:'server error'});
+    }
+});
+
+router.get('/user/:user_id',(req,res)=>{
+    try {
+        const profile = Profile.findOne({user:req.params.user_id}).populate('user',['name','avatar']);
+        if(!profile)
+            return res.status(400).json({msg:'no profile foud'});
+        
+        res.json(profile);
+
+    } catch (err) {
+        console.error(err.message);
+        if(err.kind == 'ObjectId')
+            return res.status(400).json({msg:'no profile found'});
+        
+        res.status(500);json({msg:'server error'});
+        
+    }
 })
 
 
