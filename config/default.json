@@ -1,4 +1,6 @@
 {
     "mongoURI":"mongodb://ferreira:Kfp_2008@localhost:27017/devSocialMediadb",
-    "jwtSecret":"Kfp_2008"
+    "jwtSecret":"Kfp_2008",
+    "githubClientId":"389f3631e1e04bd47966",
+    "githubSecret":"7adb0b730d3e155e331b150e8093b2477f4b0003"
 }
