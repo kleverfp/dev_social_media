@@ -233,7 +233,7 @@ router.get('/github/:username',(req,res)=>{
         res.status(500).json({msg:'server error'})
         
     }
-})
+});
 
 
 module.exports = router;
