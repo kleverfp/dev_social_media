@@ -25,23 +25,26 @@ router.post('/',[
     body('password','password is required').exists()
 
 ],async (req,res)=>{
+   
     const erros = validationResult(req);
     if(!erros.isEmpty())
         return res.status(400).json({erros:erros.array()});
     
 
     const {email,password} = req.body;
-
+   
     try{
+       
         let user = await User.findOne({email});
         
         if(!user)
-            return res.status(400).json({msg:'email or password are incorrects'});
+            return res.status(400).json({errors:[{msg:'email or password are incorrects'}]});
         
     
         const isMatch = await bcrypt.compare(password,user.password);
+        
         if(!isMatch)
-            return res.status(400).json({msg:'email or password are incorrects'});
+            return res.status(400).json({errors:[{msg:'email or password are incorrects'}]});
         
         const payload ={
             user:{

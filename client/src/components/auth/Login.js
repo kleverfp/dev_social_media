@@ -1,15 +1,16 @@
 import React,{Fragment, useState} from "react";
-import axios from 'axios';
-import {Link} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
+import { login } from "../../actions/auth";
+import { connect } from "react-redux";
+import ProtoTypes from 'prop-types';
+import auth from "../../reducers/auth";
 
-
-const Login = ()=>{
+const Login = ({login,isAuthenticated})=>{
     const [FormData,setFormData] = useState({
         email:'',
         password:''
     })
     
- 
 
     const emailHandler = (e)=>{
         setFormData({...FormData,email:e.target.value});
@@ -21,11 +22,14 @@ const Login = ()=>{
 
     const submitHandler= async (e)=>{
         e.preventDefault();
-        console.log('success');
+        const {email,password} = FormData;
+        login({email,password});
         
     }
 
-
+    if(isAuthenticated){
+        return(<Redirect to="/dashboard"/>)
+    }
     return(
        <Fragment>
             <h1 className="large text-primary">Sign</h1>
@@ -53,5 +57,12 @@ const Login = ()=>{
        </Fragment>
     )
 }
+Login.ProtoTypes={
+    login:ProtoTypes.func.isRequired,
+    isAuthenticated:ProtoTypes.bool
+}
 
-export default Login;
+const mapStateToProps= state =>({
+    isAuthenticated:state.auth.isAuthenticated
+})
+export default  connect(mapStateToProps,{login})(Login);
