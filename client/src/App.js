@@ -5,12 +5,14 @@ import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Alert from './components/layout/Alert';
+import Dashboard from './components/Dashboard/Dashboard'
 import { loadUser } from './actions/auth';
 import { BrowserRouter as Router, Route,Switch } from 'react-router-dom';
 import setAuthToken from './utils/setAuthToken';
 //Redux
 import { Provider } from 'react-redux';
 import store from './store';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 if(localStorage.token)
 setAuthToken(localStorage.token);
@@ -33,6 +35,7 @@ useEffect(()=>{
               <Switch>
                   <Route exact path="/register" component={Register}/>
                   <Route exact path="/login" component={Login}/>
+                  <PrivateRoute exact path="/dashboard" component={Dashboard}/>
               </Switch>
           </section>
         </Fragment>
