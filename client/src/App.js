@@ -13,6 +13,7 @@ import setAuthToken from './utils/setAuthToken';
 import { Provider } from 'react-redux';
 import store from './store';
 import PrivateRoute from './components/routing/PrivateRoute';
+import CreateProfile from './components/profile-forms/CreateProfile';
 
 if(localStorage.token)
 setAuthToken(localStorage.token);
@@ -36,6 +37,7 @@ useEffect(()=>{
                   <Route exact path="/register" component={Register}/>
                   <Route exact path="/login" component={Login}/>
                   <PrivateRoute exact path="/dashboard" component={Dashboard}/>
+                  <PrivateRoute exact path="/create-profile" component={CreateProfile}/>
               </Switch>
           </section>
         </Fragment>
