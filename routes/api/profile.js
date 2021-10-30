@@ -26,13 +26,13 @@ router.get('/me',auth,async(req,res)=>{
 });
 
 router.post('/',auth,[
-    check('status','Status is requires').not().isEmpty(),
+    check('status','Status is required').not().isEmpty(),
     check('skills','Skills is required').not().isEmpty()]
     ,async(req,res)=>{
-    
+    console.log(req.body);
     const errors = validationResult(req);
     if(!errors.isEmpty())
-        return res.status(400).json({erros:erros.array()});
+        return res.status(400).json({errors:errors.array()});
 
    
 
@@ -60,9 +60,11 @@ router.post('/',auth,[
     if(twitter)profileFields.social.twitter = twitter;
     if(instagram)profileFields.social.instagram = instagram;
     if(linkedin)profileFields.social.linkedin = linkedin;
+    console.log(profileFields);
     
    try {
        let profile =await  Profile.findOne({user:req.user.id});
+       console.log(profile);
       
        if(profile){
            profile = await Profile.findOneAndUpdate({user:req.user.id},{$set:profileFields},{$new:true}).populate();
