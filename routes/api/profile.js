@@ -29,7 +29,7 @@ router.post('/',auth,[
     check('status','Status is required').not().isEmpty(),
     check('skills','Skills is required').not().isEmpty()]
     ,async(req,res)=>{
-    console.log(req.body);
+   
     const errors = validationResult(req);
     if(!errors.isEmpty())
         return res.status(400).json({errors:errors.array()});
@@ -49,8 +49,9 @@ router.post('/',auth,[
     if(status)profileFields.status= status;
     if(githubusername)profileFields.githubusername = githubusername;
     if(skills){
-        profileFields.skills=skills.split(',').map((skills) =>{
-            return skills.trim();
+        Array.isArray(skills)?  skills :
+        profileFields.skills=skills.split(',').map((skill) =>{
+            return skill.trim();
         })
     }
     
@@ -60,11 +61,10 @@ router.post('/',auth,[
     if(twitter)profileFields.social.twitter = twitter;
     if(instagram)profileFields.social.instagram = instagram;
     if(linkedin)profileFields.social.linkedin = linkedin;
-    console.log(profileFields);
+
     
    try {
        let profile =await  Profile.findOne({user:req.user.id});
-       console.log(profile);
       
        if(profile){
            profile = await Profile.findOneAndUpdate({user:req.user.id},{$set:profileFields},{$new:true}).populate();
