@@ -5,7 +5,9 @@ import {setAlert} from './alert';
 import {
     GET_PROFILE,
     PROFILE_ERROR,
-    UPDATE_PROFILE
+    UPDATE_PROFILE,
+    ACCOUNT_DELETE,
+    CLEAR_PROFILE
 }from './types';
 
 
@@ -166,5 +168,30 @@ export const deleteEducation = id => async dispatch =>{
             type:PROFILE_ERROR,
             payload:{msg:err.response.statusText,status:err.response.status}
         });
+    }
+}
+
+export const deleteAccount = ()=> async dispatch =>{
+
+    if(window.confirm("Are you sure? This action delete your profile!")){
+        try {
+
+            const res = await axios.delete('/api/profile/');
+            dispatch({
+                type:CLEAR_PROFILE
+            });
+            dispatch({
+                type:ACCOUNT_DELETE
+            });
+
+            dispatch(setAlert('Profile removed','success'));
+            
+        } catch (err) {
+            
+            dispatch({
+                type:PROFILE_ERROR,
+                payload:{msg:err.response.statusText,status:err.response.status}
+            });
+        }
     }
 }
